@@ -47,7 +47,7 @@ class BreweryBaseResource(Resource):
         return { 'data': { 'brewery': brewery.serialize } }, http_return_code
     
     def return_all_breweries(self):
-        return { 'data': { 'breweries' : [i.serialize for i in Brewery.query.all()] } }
+        return { 'data': { 'breweries' : [i.serialize for i in Brewery.query.all()] } }, 200
     
     def add_parser_arguments(self):
         for argument in self.arguments:
@@ -58,18 +58,21 @@ class BreweryBaseResource(Resource):
         self.add_parser_arguments()
         return self.parser.parse_args()
     
+    def validate_args(self):
+        pass
+    
 class BreweryResource(BreweryBaseResource):
+    
     def put(self, brewery_id):
         args = self.parse_args()
         brewery = self.get_brewery(brewery_id)
         brewery.name = args['name']
-        db.session.commit()
+        brewery.save()
         return self.return_single_brewery(brewery, 200)
     
     def delete(self, brewery_id):
         brewery = self.get_brewery(brewery_id)
-        db.session.delete(brewery)
-        db.session.commit()
+        brewery.delete()
         return self.return_all_breweries()
     
     def get(self, brewery_id):
@@ -77,14 +80,14 @@ class BreweryResource(BreweryBaseResource):
         return self.return_single_brewery(brewery, 200)    
     
 class BreweryList(BreweryBaseResource):
+    
     def get(self):
         return self.return_all_breweries()
     
     def post(self):
         args = self.parse_args()
         brewery = Brewery(name=args['name'])
-        db.session.add(brewery)
-        db.session.commit()
+        brewery.save()
         return self.return_single_brewery(brewery, 201)
     
 api.add_resource(Index, '/')
