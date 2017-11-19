@@ -7,23 +7,6 @@ from flask_restful import Resource, Api, reqparse, abort
 from models import db, Brewery
 
 ####################
-# Application init
-####################
-
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-####################
-# Database & api init
-####################
-
-db.init_app(app)
-api = Api(app)
-#parser = reqparse.RequestParser()
-#parser.add_argument('name')
-
-####################
 # Routes init
 ####################
 
@@ -89,28 +72,36 @@ class BreweryList(BreweryBaseResource):
         brewery = Brewery(name=args['name'])
         brewery.save()
         return self.return_single_brewery(brewery, 201)
+
+def initApp(config):
     
-api.add_resource(Index, '/')
-api.add_resource(BreweryList, '/breweries')
-api.add_resource(BreweryResource, '/breweries/<brewery_id>')
+    ####################
+    # Application init
+    ####################
     
+    app = Flask(__name__)
+    app.config.from_object(config)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
+    ####################
+    # Database & api init
+    ####################
+    
+    db.init_app(app)
+    api = Api(app)
+
+    api.add_resource(Index, '/')
+    api.add_resource(BreweryList, '/breweries')
+    api.add_resource(BreweryResource, '/breweries/<brewery_id>')
+    
+    return app
+
 if __name__ == '__main__':
+    
+    app = initApp(os.environ['APP_SETTINGS'])
     app.run()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
