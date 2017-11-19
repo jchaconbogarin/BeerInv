@@ -1,0 +1,2 @@
+# BeerCollection
+This project is the first of many personal projects that I want to develop and a very important one to one of my favorite hobbies, drinking beer and collecting their bottles. Its purpose is to allow the creation of an inventory of bottle beers (and memories associated to them) and possibly other beer elements that I've collected over the years.
