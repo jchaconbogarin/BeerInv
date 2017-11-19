@@ -11,6 +11,10 @@ class Brewery(db.Model):
     
     def __init__(self, name):
         self.name = name
-    
-    def __repr__(self):
-        return '<Brewery id={} name={}>'.format(self.id, self.name)
+        
+    @property
+    def serialize(self):
+        return {
+            'id':self.id,
+            'name':self.name
+        }
