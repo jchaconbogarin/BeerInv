@@ -26,3 +26,5 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    DETBUG = True
+    SQLALCHEMY_DATABASE_URI = 'postgresql://bogadmin:r3G$#$Oma9212@localhost/beerinv_test'

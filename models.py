@@ -3,7 +3,24 @@ from sqlalchemy.dialects.postgresql import JSON
 
 db = SQLAlchemy()
 
-class Brewery(db.Model):
+class BaseModel(db.Model):
+    
+    __abstract__ = True
+    
+    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
+    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+            
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        
+    """ Analyze possibility of including get_all and get methods """
+
+class Brewery(BaseModel):
     __tablename__ = 'breweries'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +28,10 @@ class Brewery(db.Model):
     
     def __init__(self, name):
         self.name = name
-    
-    def __repr__(self):
-        return '<Brewery id={} name={}>'.format(self.id, self.name)
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
