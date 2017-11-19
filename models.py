@@ -18,7 +18,7 @@ class BaseModel(db.Model):
         db.session.delete(self)
         db.session.commit()
         
-    ''' Analyze possibility of including get_all and get methods '''
+    """ Analyze possibility of including get_all and get methods """
 
 class Brewery(BaseModel):
     __tablename__ = 'breweries'

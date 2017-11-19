@@ -12,7 +12,7 @@ from models import db, Brewery
 
 class Index(Resource):
     def get(self):
-        return {'message':'Boga\'s beer collection inventory'}
+        return {'message':"Boga\'s beer collection inventory"}
     
 class BreweryBaseResource(Resource):
     
