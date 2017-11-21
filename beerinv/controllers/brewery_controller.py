@@ -1,19 +1,10 @@
-import os
 
-from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api, reqparse, abort
 
-from models import db, Brewery
 
-####################
-# Routes init
-####################
+from beerinv.models.base_model import db
+from beerinv.models.brewery import Brewery
 
-class Index(Resource):
-    def get(self):
-        return {'message':"Boga\'s beer collection inventory"}
-    
 class BreweryBaseResource(Resource):
     
     arguments = ['name']
@@ -72,36 +63,3 @@ class BreweryList(BreweryBaseResource):
         brewery = Brewery(name=args['name'])
         brewery.save()
         return self.return_single_brewery(brewery, 201)
-
-def initApp(config):
-    
-    ####################
-    # Application init
-    ####################
-    
-    app = Flask(__name__)
-    app.config.from_object(config)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
-    ####################
-    # Database & api init
-    ####################
-    
-    db.init_app(app)
-    api = Api(app)
-
-    api.add_resource(Index, '/')
-    api.add_resource(BreweryList, '/breweries')
-    api.add_resource(BreweryResource, '/breweries/<brewery_id>')
-    
-    return app
-
-if __name__ == '__main__':
-    
-    app = initApp(os.environ['APP_SETTINGS'])
-    app.run()
-    
-    
-    
-    
-    

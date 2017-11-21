@@ -1,8 +1,8 @@
 import unittest 
 import os 
 import json
+from beerinv import initApp, db
 from config import TestingConfig
-from app import initApp, db
 
 class BreweryTestCase(unittest.TestCase):
     
@@ -40,7 +40,7 @@ class BreweryTestCase(unittest.TestCase):
         
     def test_brewery_can_be_deleted(self):
         
-        response = self.client().post('/breweries', data={'name':'Cervecería Errónea'})
+        response = self.client().post('/breweries', data={'name':'Cerveceria Erronea'})
         self.assertEqual(response.status_code, 201)
         response = self.client().delete('/breweries/1')
         self.assertEqual(response.status_code, 200)
