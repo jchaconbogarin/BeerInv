@@ -4,8 +4,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 
-from controllers.brewery_controller import BreweryList, BreweryResource
-from models.base_model import db 
+from beerinv.controllers.brewery_controller import BreweryList, BreweryResource
+from beerinv.models.base_model import db 
 
 def initApp(config):
     
