@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from base_model import db, BaseModel
+from beerinv.models.base_model import db, BaseModel
 
 class Brewery(BaseModel):
     __tablename__ = 'breweries'

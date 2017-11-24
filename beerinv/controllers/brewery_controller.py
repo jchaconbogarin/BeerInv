@@ -1,7 +1,6 @@
 
 from flask_restful import Resource, Api, reqparse, abort
 
-
 from beerinv.models.base_model import db
 from beerinv.models.brewery import Brewery
 
