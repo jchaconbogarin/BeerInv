@@ -1,1 +1,1 @@
-web: gunicorn beerinv:run
+web: gunicorn app:app
