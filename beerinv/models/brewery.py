@@ -3,6 +3,8 @@ from beerinv.models.base_model import db, BaseModel
 
 class Brewery(BaseModel):
     __tablename__ = 'breweries'
+    object_name_singular = 'brewery'
+    object_name_plural = 'breweries'
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
