@@ -6,7 +6,9 @@ from beerinv.models.brewery import Brewery
 
 class BreweryBaseResource(Resource):
     
-    arguments = ['name']
+    arguments = [
+        { 'field_name':'name', 'required':True, 'type':str, 'help':'This field is required.' }
+    ]
     parser = reqparse.RequestParser()
     
     def get_brewery(self, brewery_id):
@@ -23,16 +25,12 @@ class BreweryBaseResource(Resource):
         return { 'data': { 'breweries' : [i.serialize for i in Brewery.query.all()] } }, 200
     
     def add_parser_arguments(self):
-        for argument in self.arguments:
-            self.parser.add_argument(argument)
+        for a in self.arguments:
+            self.parser.add_argument('name', required=a['required'], type=a['type'], help=a['help'])
     
     def parse_args(self):
-        # Include validations here
         self.add_parser_arguments()
         return self.parser.parse_args()
-    
-    def validate_args(self):
-        pass
     
 class BreweryResource(BreweryBaseResource):
     
