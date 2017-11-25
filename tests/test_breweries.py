@@ -1,21 +1,10 @@
-import unittest 
-import os 
-import json
-from beerinv import initApp, db
-from config import TestingConfig
+from tests.base_test_case import BaseTestCase
 
-class BreweryTestCase(unittest.TestCase):
+class BreweryTestCase(BaseTestCase):
     
-    def setUp(self):
-        
-        self.app = initApp(TestingConfig)
-        self.client = self.app.test_client
-        self.brewery = {'name':'Test brewery'}
-        self.url_prefix = '/breweries'
-        
-        with self.app.app_context():
-            db.create_all()
-            
+    brewery = {'name':'Test brewery'}
+    url_prefix = '/breweries'
+    
     """ Happy path """
             
     def test_brewery_create(self):
@@ -58,14 +47,3 @@ class BreweryTestCase(unittest.TestCase):
         response = self.client().post(self.url_prefix, data=self.brewery)
         self.assertEqual(response.status_code, 400)
         self.assertIn('This field is required.', str(response.data))
-        
-        
-    def tearDown(self):
-        
-        with self.app.app_context():
-            db.session.remove()
-            db.drop_all()
-            
-if __name__ == '__main__':
-    unittest.main()
-    
