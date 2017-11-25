@@ -24,10 +24,10 @@ class BaseResource(Resource):
             abort(404, message="The object you're looking for doesn't exist.")
             
     def return_single(self, obj, http_return_code):
-        return { 'data': { self.klass.object_name_singular: obj.serialize } }, http_return_code
+        return { 'data': { self.klass.__object_name_singular__ : obj.serialize } }, http_return_code
     
     def return_all(self):
-        return { 'data': { self.klass.object_name_plural : [i.serialize for i in self.klass.query.all()] } }, 200
+        return { 'data': { self.klass.__object_name_plural__ : [i.serialize for i in self.klass.query.all()] } }, 200
     
     def add_parser_arguments(self):
         for a in self.arguments:

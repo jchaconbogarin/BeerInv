@@ -1,10 +1,12 @@
+from abc import ABCMeta, abstractproperty, abstractmethod
+
 from flask_sqlalchemy import SQLAlchemy
 from beerinv.models.base_model import db, BaseModel
 
 class Brewery(BaseModel):
     __tablename__ = 'breweries'
-    object_name_singular = 'brewery'
-    object_name_plural = 'breweries'
+    __object_name_singular__ = 'brewery'
+    __object_name_plural__ = 'breweries'
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
